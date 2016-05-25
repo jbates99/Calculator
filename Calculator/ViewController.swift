@@ -43,110 +43,110 @@ class ViewController: UIViewController {
         // MARK: - NUMBER BUTTONS
         
         button0 = UIButton()
-        button0.titleLabel?.text = "0"
-        button0.titleLabel?.textColor = UIColor.darkGrayColor()
+        button0.setTitle("0", forState: .Normal)
+        button0.setTitleColor(UIColor.blackColor(), forState: .Normal)
         button0.backgroundColor = .grayColor()
         button0.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(button0)
     
         button1 = UIButton()
         button1.translatesAutoresizingMaskIntoConstraints = false
-        button1.titleLabel?.text = "1"
-        button1.titleLabel?.textColor = UIColor.darkGrayColor()
+        button1.setTitle("1", forState: .Normal)
+        button1.setTitleColor(UIColor.blackColor(), forState: .Normal)
         button1.backgroundColor = .grayColor()
         view.addSubview(button1)
         
         button2 = UIButton()
         button2.translatesAutoresizingMaskIntoConstraints = false
-        button2.titleLabel?.text = "2"
-        button2.titleLabel?.textColor = UIColor.darkGrayColor()
-        button2.titleLabel?.backgroundColor = .grayColor()
+        button2.setTitle("2", forState: .Normal)
+        button2.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        button2.backgroundColor = .grayColor()
         view.addSubview(button2)
         
         button3 = UIButton()
         button3.translatesAutoresizingMaskIntoConstraints = false
-        button3.titleLabel?.text = "3"
-        button3.titleLabel?.textColor = UIColor.darkGrayColor()
-        button3.titleLabel?.backgroundColor = .grayColor()
+        button3.setTitle("3", forState: .Normal)
+        button3.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        button3.backgroundColor = .grayColor()
         view.addSubview(button3)
         
         button4 = UIButton()
         button4.translatesAutoresizingMaskIntoConstraints = false
-        button4.titleLabel?.text = "4"
-        button4.titleLabel?.textColor = UIColor.darkGrayColor()
-        button4.titleLabel?.backgroundColor = .grayColor()
+        button4.setTitle("4", forState: .Normal)
+        button4.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        button4.backgroundColor = .grayColor()
         view.addSubview(button4)
         
         button5 = UIButton()
         button5.translatesAutoresizingMaskIntoConstraints = false
-        button5.titleLabel?.text = "5"
-        button5.titleLabel?.textColor = UIColor.darkGrayColor()
-        button5.titleLabel?.backgroundColor = .grayColor()
+        button5.setTitle("5", forState: .Normal)
+        button5.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        button5.backgroundColor = .grayColor()
         view.addSubview(button5)
         
         button6 = UIButton()
         button6.translatesAutoresizingMaskIntoConstraints = false
-        button6.titleLabel?.text = "6"
-        button6.titleLabel?.textColor = UIColor.darkGrayColor()
-        button6.titleLabel?.backgroundColor = .grayColor()
+        button6.setTitle("6", forState: .Normal)
+        button6.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        button6.backgroundColor = .grayColor()
         view.addSubview(button6)
         
         button7 = UIButton()
         button7.translatesAutoresizingMaskIntoConstraints = false
-        button7.titleLabel?.text = "7"
-        button7.titleLabel?.textColor = UIColor.darkGrayColor()
-        button7.titleLabel?.backgroundColor = .grayColor()
+        button7.setTitle("7", forState: .Normal)
+        button7.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        button7.backgroundColor = .grayColor()
         view.addSubview(button7)
         
         button8 = UIButton()
         button8.translatesAutoresizingMaskIntoConstraints = false
-        button8.titleLabel?.text = "8"
-        button8.titleLabel?.textColor = UIColor.darkGrayColor()
-        button8.titleLabel?.backgroundColor = .grayColor()
+        button8.setTitle("8", forState: .Normal)
+        button8.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        button8.backgroundColor = .grayColor()
         view.addSubview(button8)
         
         button9 = UIButton()
         button9.translatesAutoresizingMaskIntoConstraints = false
-        button9.titleLabel?.text = "9"
-        button9.titleLabel?.textColor = UIColor.darkGrayColor()
-        button9.titleLabel?.backgroundColor = .grayColor()
+        button9.setTitle("9", forState: .Normal)
+        button9.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        button9.backgroundColor = .grayColor()
         view.addSubview(button9)
         
         // MARK: - FUNCTION BUTTONS
         
         divideButton = UIButton()
         divideButton.translatesAutoresizingMaskIntoConstraints = false
-        divideButton.titleLabel?.text = ""
-        divideButton.titleLabel?.textColor = .whiteColor()
-        divideButton.titleLabel?.backgroundColor = .orangeColor()
+        divideButton.setTitle("/", forState: .Normal)
+        divideButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        divideButton.backgroundColor = .orangeColor()
         view.addSubview(divideButton)
         
         addButton = UIButton()
         addButton.translatesAutoresizingMaskIntoConstraints = false
-        addButton.titleLabel?.text = "+"
-        addButton.titleLabel?.textColor = .whiteColor()
-        addButton.titleLabel?.backgroundColor = .orangeColor()
+        addButton.setTitle("+", forState: .Normal)
+        addButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        addButton.backgroundColor = .orangeColor()
         view.addSubview(addButton)
         
         subtractButton = UIButton()
         subtractButton.translatesAutoresizingMaskIntoConstraints = false
-        subtractButton.titleLabel?.text = "-"
-        subtractButton.titleLabel?.textColor = .whiteColor()
-        subtractButton.titleLabel?.backgroundColor = .orangeColor()
+        subtractButton.setTitle("-", forState: .Normal)
+        subtractButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        subtractButton.backgroundColor = .orangeColor()
         view.addSubview(subtractButton)
         
         multiplyButton = UIButton()
         multiplyButton.translatesAutoresizingMaskIntoConstraints = false
-        multiplyButton.titleLabel?.text = "X"
-        multiplyButton.titleLabel?.textColor = .whiteColor()
-        multiplyButton.titleLabel?.backgroundColor = .orangeColor()
+        multiplyButton.setTitle("X", forState: .Normal)
+        multiplyButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        multiplyButton.backgroundColor = .orangeColor()
         view.addSubview(multiplyButton)
         
         enterButton = UIButton()
         enterButton.translatesAutoresizingMaskIntoConstraints = false
-        enterButton.titleLabel?.text = "↩︎"
-        enterButton.titleLabel?.textColor = .whiteColor()
-        enterButton.titleLabel?.backgroundColor = .greenColor()
+        enterButton.setTitle("↩︎", forState: .Normal)
+        enterButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        enterButton.backgroundColor = .greenColor()
         view.addSubview(enterButton)
         
         
