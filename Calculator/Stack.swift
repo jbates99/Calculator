@@ -11,19 +11,19 @@ import Foundation
 class Stack {
     private var arrayOfFloats = [Float]()
     
-    static func pop() {
+    func pop() {
         arrayOfFloats.removeLast()
     }
     
-    static func push(float: Float) {
+    func push(float: Float) {
     arrayOfFloats.append(float)
     }
     
-    static func log() {
+    func log() {
         print(arrayOfFloats)
     }
 
-    static func count() -> Int {
+    func count() -> Int {
         return arrayOfFloats.count
     }
 }
