@@ -29,7 +29,9 @@ class ViewController: UIViewController {
     
     var isTypingNumber = false
     
-    func numberButtonPressed(button: UIButton) {
+    
+    
+    @objc func numberButtonPressed(button: UIButton) {
         var number: Int = 0
         var numbers = [Int]()
         var numberString: String?
