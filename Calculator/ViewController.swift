@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         label.textColor = .whiteColor()
         label.backgroundColor = .blackColor()
         label.textAlignment = .Right
-        label.font.fontWithSize(50)
+//        label.font.fontWithSize(50)
         view.addSubview(label)
         
         // MARK: - NUMBER BUTTONS
@@ -199,7 +199,7 @@ class ViewController: UIViewController {
                                         toItem: label,
                                         attribute: .Bottom,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button8,
@@ -208,7 +208,7 @@ class ViewController: UIViewController {
                                         toItem: button7,
                                         attribute: .Top,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button9,
@@ -217,7 +217,7 @@ class ViewController: UIViewController {
                                         toItem: button7,
                                         attribute: .Top,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: divideButton,
@@ -226,7 +226,7 @@ class ViewController: UIViewController {
                                         toItem: button7,
                                         attribute: .Top,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button4,
@@ -235,7 +235,7 @@ class ViewController: UIViewController {
                                         toItem: button7,
                                         attribute: .Bottom,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button5,
@@ -244,7 +244,7 @@ class ViewController: UIViewController {
                                         toItem: button7,
                                         attribute: .Bottom,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button6,
@@ -253,7 +253,7 @@ class ViewController: UIViewController {
                                         toItem: button7,
                                         attribute: .Bottom,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: multiplyButton,
@@ -262,7 +262,7 @@ class ViewController: UIViewController {
                                         toItem: button7,
                                         attribute: .Bottom,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button1,
@@ -271,7 +271,7 @@ class ViewController: UIViewController {
                                         toItem: button4,
                                         attribute: .Bottom,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button2,
@@ -280,7 +280,7 @@ class ViewController: UIViewController {
                                         toItem: button4,
                                         attribute: .Bottom,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button3,
@@ -289,7 +289,7 @@ class ViewController: UIViewController {
                                         toItem: button4,
                                         attribute: .Bottom,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: subtractButton,
@@ -298,7 +298,7 @@ class ViewController: UIViewController {
                                         toItem: button4,
                                         attribute: .Bottom,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button0,
@@ -307,7 +307,7 @@ class ViewController: UIViewController {
                                         toItem: button1,
                                         attribute: .Bottom,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: enterButton,
@@ -316,7 +316,7 @@ class ViewController: UIViewController {
                                         toItem: button1,
                                         attribute: .Bottom,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: addButton,
@@ -325,7 +325,7 @@ class ViewController: UIViewController {
                                         toItem: button1,
                                         attribute: .Bottom,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         // MARK: Leading
@@ -336,16 +336,16 @@ class ViewController: UIViewController {
                                         toItem: enterButton,
                                         attribute: .Trailing,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
 
         constraint = NSLayoutConstraint(item: enterButton,
                                         attribute: .Leading,
                                         relatedBy: .Equal,
-                                        toItem: button0,
+                                        toItem: button2,
                                         attribute: .Trailing,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button0,
@@ -354,7 +354,7 @@ class ViewController: UIViewController {
                                         toItem: view,
                                         attribute: .Leading,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: subtractButton,
@@ -363,7 +363,7 @@ class ViewController: UIViewController {
                                         toItem: button3,
                                         attribute: .Trailing,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button3,
@@ -372,7 +372,7 @@ class ViewController: UIViewController {
                                         toItem: button2,
                                         attribute: .Trailing,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button2,
@@ -381,7 +381,7 @@ class ViewController: UIViewController {
                                         toItem: button1,
                                         attribute: .Trailing,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button1,
@@ -390,7 +390,7 @@ class ViewController: UIViewController {
                                         toItem: view,
                                         attribute: .Leading,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: multiplyButton,
@@ -399,7 +399,7 @@ class ViewController: UIViewController {
                                         toItem: button6,
                                         attribute: .Trailing,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button6,
@@ -408,7 +408,7 @@ class ViewController: UIViewController {
                                         toItem: button5,
                                         attribute: .Trailing,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button5,
@@ -417,7 +417,7 @@ class ViewController: UIViewController {
                                         toItem: button4,
                                         attribute: .Trailing,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button4,
@@ -426,7 +426,7 @@ class ViewController: UIViewController {
                                         toItem: view,
                                         attribute: .Leading,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: divideButton,
@@ -435,7 +435,7 @@ class ViewController: UIViewController {
                                         toItem: button9,
                                         attribute: .Trailing,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button9,
@@ -444,7 +444,7 @@ class ViewController: UIViewController {
                                         toItem: button8,
                                         attribute: .Trailing,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button8,
@@ -453,7 +453,7 @@ class ViewController: UIViewController {
                                         toItem: button7,
                                         attribute: .Trailing,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
         
         constraint = NSLayoutConstraint(item: button7,
@@ -462,37 +462,57 @@ class ViewController: UIViewController {
                                         toItem: view,
                                         attribute: .Leading,
                                         multiplier: 1.0,
-                                        constant: 1.0)
+                                        constant: 0.0)
         view.addConstraint(constraint)
+        
+        // MARK: Trailing
+        
+//        constraint = NSLayoutConstraint(item: button0,
+//                                        attribute: .Trailing,
+//                                        relatedBy: .Equal,
+//                                        toItem: button2,
+//                                        attribute: .Trailing,
+//                                        multiplier: 1.0,
+//                                        constant: 0.0)
+//        view.addConstraint(constraint)
+//        
+//        constraint = NSLayoutConstraint(item: divideButton,
+//                                        attribute: .Trailing,
+//                                        relatedBy: .Equal,
+//                                        toItem: view,
+//                                        attribute: .Trailing,
+//                                        multiplier: 1.0,
+//                                        constant: 0.0)
+//        view.addConstraint(constraint)
         
         // MARK: Bottom 
         
-        constraint = NSLayoutConstraint(item: button0,
-                                        attribute: .Bottom,
-                                        relatedBy: .Equal,
-                                        toItem: view,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 1.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: enterButton,
-                                        attribute: .Bottom,
-                                        relatedBy: .Equal,
-                                        toItem: view,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 1.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: addButton,
-                                        attribute: .Bottom,
-                                        relatedBy: .Equal,
-                                        toItem: view,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 1.0)
-        view.addConstraint(constraint)
+//        constraint = NSLayoutConstraint(item: button0,
+//                                        attribute: .Bottom,
+//                                        relatedBy: .Equal,
+//                                        toItem: view,
+//                                        attribute: .Bottom,
+//                                        multiplier: 1.0,
+//                                        constant: 1.0)
+//        view.addConstraint(constraint)
+//        
+//        constraint = NSLayoutConstraint(item: enterButton,
+//                                        attribute: .Bottom,
+//                                        relatedBy: .Equal,
+//                                        toItem: view,
+//                                        attribute: .Bottom,
+//                                        multiplier: 1.0,
+//                                        constant: 1.0)
+//        view.addConstraint(constraint)
+//        
+//        constraint = NSLayoutConstraint(item: addButton,
+//                                        attribute: .Bottom,
+//                                        relatedBy: .Equal,
+//                                        toItem: view,
+//                                        attribute: .Bottom,
+//                                        multiplier: 1.0,
+//                                        constant: 1.0)
+//        view.addConstraint(constraint)
         
         // MARK: Button 7 aspects
         
