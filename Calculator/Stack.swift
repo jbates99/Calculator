@@ -9,7 +9,9 @@
 import Foundation
 
 class Stack {
-    private var arrayOfFloats = [Float]()
+    var arrayOfFloats = [Float]()
+    
+    static let sharedStack = Stack()
     
     func pop() {
         arrayOfFloats.removeLast()

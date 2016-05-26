@@ -8,844 +8,280 @@
 
 import UIKit
 
+
 class ViewController: UIViewController {
     
-    var label: UILabel!
-    var button0: UIButton!
-    var button1: UIButton!
-    var button2: UIButton!
-    var button3: UIButton!
-    var button4: UIButton!
-    var button5: UIButton!
-    var button6: UIButton!
-    var button7: UIButton!
-    var button8: UIButton!
-    var button9: UIButton!
-    var divideButton: UIButton!
-    var multiplyButton: UIButton!
-    var subtractButton: UIButton!
-    var addButton: UIButton!
-    var enterButton: UIButton!
-    
-    var isTypingNumber = false
-    
-    
-    
-    @objc func numberButtonPressed(button: UIButton) {
-        var number: Int = 0
-        var numbers = [Int]()
-        var numberString: String?
+    enum Operator {
+        case add
+        case subtract
+        case divide
+        case multiply
+        case enter
         
-        if button == button0 {
-            number = 0
-        } else if button == button1 {
-            number = 1
-        } else if button == button2 {
-            number = 2
-        } else if button == button3 {
-            number = 3
-        } else if button == button4 {
-            number = 4
-        } else if button == button5 {
-            number = 5
-        } else if button == button6 {
-            number = 6
-        } else if button == button7 {
-            number = 7
-        } else if button == button8 {
-            number = 8
-        } else if button == button9 {
-            number = 9
+        var displayString: String {
+            switch self {
+            case add: return "+"
+            case subtract: return "-"
+            case divide: return "/"
+            case multiply: return "X"
+            case enter: return "↩︎"
+            }
         }
         
-        if !isTypingNumber {
-            numbers.append(number)
-            for number in numbers {
-                numberString = "\(number)"
-                isTypingNumber = true
+        
+        var backgroundColor: UIColor {
+            switch self {
+            case add, subtract, divide, multiply: return .orangeColor()
+            case enter: return .greenColor()
             }
-        } else {
-            numbers.append(number)
-            for number in numbers {
-                if numberString != nil {
-                    numberString = numberString! + "\(number)"
-                }
-            }
-            
-            label.text = numberString ?? "0"
         }
     }
+    
+    var stringAsNumber: Float {
+        return Float(numberString) ?? 0.0
+    }
+    var label = UILabel()
+    var button0 = UIButton()
+    var button1 = UIButton()
+    var button2 = UIButton()
+    var button3 = UIButton()
+    var button4 = UIButton()
+    var button5 = UIButton()
+    var button6 = UIButton()
+    var button7 = UIButton()
+    var button8 = UIButton()
+    var button9 = UIButton()
+    var divideButton = UIButton()
+    var multiplyButton = UIButton()
+    var subtractButton = UIButton()
+    var addButton = UIButton()
+    var enterButton = UIButton()
+    var numberButtons: [UIButton] {
+        return [button0,button1,button2, button3, button4, button5, button6, button7, button8, button9]
+    }
+    
+    var operatorButtons: [UIButton] {
+        return [divideButton, multiplyButton, subtractButton, addButton, enterButton]
+    }
+    
+    var isTypingNumber = false
+    var numbers = [Int]()
+    var numberString = ""
+    var operatorSelected = ""
+    
+    var sharedStack = Stack.sharedStack
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setUpButtons()
+        setUpNumberLabel()
+        setUpConstraints()
+    }
+    
+    
+    func setUpConstraints() {
         
-        // MARK: - LABEL
-        label = UILabel()
+        view.addConstraint(label.topAnchor.constraintEqualToAnchor(view.topAnchor))
+        view.addConstraint(label.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 0.0))
+        view.addConstraint(label.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor))
+        view.addConstraint(label.heightAnchor.constraintEqualToAnchor(button7.heightAnchor, multiplier: 2.0))
+        view.addConstraint(button7.topAnchor.constraintEqualToAnchor(label.bottomAnchor))
+        view.addConstraint(button8.topAnchor.constraintEqualToAnchor(button7.topAnchor))
+        view.addConstraint(button9.topAnchor.constraintEqualToAnchor(button7.topAnchor))
+        view.addConstraint(divideButton.topAnchor.constraintEqualToAnchor(button7.topAnchor))
+        view.addConstraint(button4.topAnchor.constraintEqualToAnchor(button7.bottomAnchor))
+        view.addConstraint(button5.topAnchor.constraintEqualToAnchor(button7.bottomAnchor))
+        view.addConstraint(button6.topAnchor.constraintEqualToAnchor(button7.bottomAnchor))
+        view.addConstraint(multiplyButton.topAnchor.constraintEqualToAnchor(button7.bottomAnchor))
+        view.addConstraint(button1.topAnchor.constraintEqualToAnchor(button4.bottomAnchor))
+        view.addConstraint(button2.topAnchor.constraintEqualToAnchor(button4.bottomAnchor))
+        view.addConstraint(button3.topAnchor.constraintEqualToAnchor(button4.bottomAnchor))
+        view.addConstraint(subtractButton.topAnchor.constraintEqualToAnchor(button4.bottomAnchor))
+        view.addConstraint(button0.topAnchor.constraintEqualToAnchor(button1.bottomAnchor))
+        view.addConstraint(enterButton.topAnchor.constraintEqualToAnchor(button1.bottomAnchor))
+        view.addConstraint(addButton.topAnchor.constraintEqualToAnchor(button1.bottomAnchor))
+        view.addConstraint(addButton.leadingAnchor.constraintEqualToAnchor(enterButton.trailingAnchor))
+        view.addConstraint(enterButton.leadingAnchor.constraintEqualToAnchor(button2.trailingAnchor))
+        view.addConstraint(button0.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor))
+        view.addConstraint(subtractButton.leadingAnchor.constraintEqualToAnchor(button3.trailingAnchor))
+        view.addConstraint(button3.leadingAnchor.constraintEqualToAnchor(button2.trailingAnchor))
+        view.addConstraint(button2.leadingAnchor.constraintEqualToAnchor(button1.trailingAnchor))
+        view.addConstraint(button1.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor))
+        view.addConstraint(multiplyButton.leadingAnchor.constraintEqualToAnchor(button6.trailingAnchor))
+        view.addConstraint(button6.leadingAnchor.constraintEqualToAnchor(button5.trailingAnchor))
+        view.addConstraint(button5.leadingAnchor.constraintEqualToAnchor(button4.trailingAnchor))
+        view.addConstraint(button4.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor))
+        view.addConstraint(divideButton.leadingAnchor.constraintEqualToAnchor(button9.trailingAnchor))
+        view.addConstraint(button9.leadingAnchor.constraintEqualToAnchor(button8.trailingAnchor))
+        view.addConstraint(button8.leadingAnchor.constraintEqualToAnchor(button7.trailingAnchor))
+        view.addConstraint(button7.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor))
+        view.addConstraint(button7.widthAnchor.constraintEqualToAnchor(label.widthAnchor, multiplier: 0.25))
+        view.addConstraint(button7.heightAnchor.constraintEqualToAnchor(view.heightAnchor, multiplier: 1/6.0))
+        view.addConstraint(button0.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(button1.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(button2.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(button3.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(button4.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(button5.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(button6.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(button8.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(button9.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(divideButton.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(multiplyButton.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(addButton.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(subtractButton.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(enterButton.heightAnchor.constraintEqualToAnchor(button7.heightAnchor))
+        view.addConstraint(button0.widthAnchor.constraintEqualToAnchor(button7.widthAnchor,multiplier: 2.0))
+        view.addConstraint(button1.widthAnchor.constraintEqualToAnchor(button7.widthAnchor))
+        view.addConstraint(button2.widthAnchor.constraintEqualToAnchor(button7.widthAnchor))
+        view.addConstraint(button3.widthAnchor.constraintEqualToAnchor(button7.widthAnchor))
+        view.addConstraint(button4.widthAnchor.constraintEqualToAnchor(button7.widthAnchor))
+        view.addConstraint(button5.widthAnchor.constraintEqualToAnchor(button7.widthAnchor))
+        view.addConstraint(button6.widthAnchor.constraintEqualToAnchor(button7.widthAnchor))
+        view.addConstraint(button8.widthAnchor.constraintEqualToAnchor(button7.widthAnchor))
+        view.addConstraint(button9.widthAnchor.constraintEqualToAnchor(button7.widthAnchor))
+        view.addConstraint(divideButton.widthAnchor.constraintEqualToAnchor(button7.widthAnchor))
+        view.addConstraint(multiplyButton.widthAnchor.constraintEqualToAnchor(button7.widthAnchor))
+        view.addConstraint(addButton.widthAnchor.constraintEqualToAnchor(button7.widthAnchor))
+        view.addConstraint(subtractButton.widthAnchor.constraintEqualToAnchor(button7.widthAnchor))
+        view.addConstraint(enterButton.widthAnchor.constraintEqualToAnchor(button7.widthAnchor))
+        
+    }
+    
+    func numberButtonPressed(button: UIButton) {
+        var number = 0
+        guard let index = numberButtons.indexOf(button) else { return }
+        number = index
+        if !isTypingNumber {
+            numbers = [number]
+            isTypingNumber = true
+            numberString = "\(number)"
+        } else {
+            numbers.append(number)
+            numberString += "\(number)"
+        }
+        label.text = numberString ?? "0"
+    }
+    
+    func operatorButtonPressed(button: UIButton) {
+        let operatorType = operatorForButton(button)
+        if operatorType == .enter {
+            isTypingNumber = false
+            sharedStack.push(stringAsNumber)
+            sharedStack.log()
+        } else if operatorType == .add {
+            if isTypingNumber == false {
+                if sharedStack.count() == 2 {
+                    let answer = sharedStack.arrayOfFloats[0] + sharedStack.arrayOfFloats[1]
+                    label.text = String(answer)
+                    sharedStack.pop()
+                    sharedStack.pop()
+                    sharedStack.push(answer)
+                    sharedStack.log()
+                } else {
+                    label.text = "0"
+                    numberString = "0"
+                    sharedStack.arrayOfFloats = []
+                    sharedStack.log()
+                }
+            }
+        } else if operatorType == .subtract {
+            if isTypingNumber == false {
+                if sharedStack.count() == 2 {
+                    let answer = sharedStack.arrayOfFloats[0] - sharedStack.arrayOfFloats[1]
+                    label.text = String(answer)
+                    sharedStack.pop()
+                    sharedStack.pop()
+                    sharedStack.push(answer)
+                    sharedStack.log()
+                } else {
+                    label.text = "0"
+                    numberString = "0"
+                    sharedStack.arrayOfFloats = []
+                    sharedStack.log()
+                }
+            }
+        } else if operatorType == .multiply {
+            if isTypingNumber == false {
+                if sharedStack.count() == 2 {
+                    let answer = sharedStack.arrayOfFloats[0] * sharedStack.arrayOfFloats[1]
+                    label.text = String(answer)
+                    sharedStack.pop()
+                    sharedStack.pop()
+                    sharedStack.push(answer)
+                    sharedStack.log()
+                } else {
+                    label.text = "0"
+                    numberString = "0"
+                    sharedStack.arrayOfFloats = []
+                    sharedStack.log()
+                }
+            }
+        } else if operatorType == .divide {
+            if isTypingNumber == false {
+                if sharedStack.count() == 2 {
+                    let answer = sharedStack.arrayOfFloats[0] / sharedStack.arrayOfFloats[1]
+                    label.text = String(answer)
+                    sharedStack.pop()
+                    sharedStack.pop()
+                    sharedStack.push(answer)
+                    sharedStack.log()
+                } else {
+                    label.text = "0"
+                    numberString = "0"
+                    sharedStack.arrayOfFloats = []
+                    sharedStack.log()
+                }
+            }
+        }
+    }
+    
+    func operatorForButton(button: UIButton) -> Operator {
+        if button == divideButton { return .divide }
+        if button == multiplyButton { return .multiply }
+        if button == addButton { return .add }
+        if button == subtractButton { return .subtract }
+        if button == enterButton { return .enter }
+        fatalError()
+    }
+    
+    func setUpButtons() {
+        for (index, button) in numberButtons.enumerate() {
+            setUpNumberButton(button, index: index)
+        }
+        for button in operatorButtons {
+            setUpOperatorButton(button, operatorType: operatorForButton(button))
+        }
+    }
+    
+    func setUpOperatorButton(button: UIButton, operatorType: Operator)  {
+        button.setTitle(operatorType.displayString, forState: .Normal)
+        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        button.backgroundColor = operatorType.backgroundColor
+        button.addTarget(self, action: #selector(operatorButtonPressed), forControlEvents: .TouchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(button)
+    }
+    
+    func setUpNumberButton(button: UIButton, index: Int){
+        button.setTitle(String(index), forState: .Normal)
+        button.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        button.backgroundColor = .grayColor()
+        button.addTarget(self, action: #selector(numberButtonPressed), forControlEvents: .TouchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(button)
+    }
+    
+    func setUpNumberLabel() {
         label.text = "0"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .whiteColor()
         label.backgroundColor = .blackColor()
         label.textAlignment = .Right
-        //        label.font.fontWithSize(50)
         view.addSubview(label)
-        
-        // MARK: - NUMBER BUTTONS
-        
-        button0 = UIButton()
-        button0.setTitle("0", forState: .Normal)
-        button0.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button0.backgroundColor = .grayColor()
-        button0.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(button0)
-        
-        button1 = UIButton()
-        button1.translatesAutoresizingMaskIntoConstraints = false
-        button1.setTitle("1", forState: .Normal)
-        button1.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button1.backgroundColor = .grayColor()
-        view.addSubview(button1)
-        
-        button2 = UIButton()
-        button2.translatesAutoresizingMaskIntoConstraints = false
-        button2.setTitle("2", forState: .Normal)
-        button2.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button2.backgroundColor = .grayColor()
-        view.addSubview(button2)
-        
-        button3 = UIButton()
-        button3.translatesAutoresizingMaskIntoConstraints = false
-        button3.setTitle("3", forState: .Normal)
-        button3.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button3.backgroundColor = .grayColor()
-        view.addSubview(button3)
-        
-        button4 = UIButton()
-        button4.translatesAutoresizingMaskIntoConstraints = false
-        button4.setTitle("4", forState: .Normal)
-        button4.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button4.backgroundColor = .grayColor()
-        view.addSubview(button4)
-        
-        button5 = UIButton()
-        button5.translatesAutoresizingMaskIntoConstraints = false
-        button5.setTitle("5", forState: .Normal)
-        button5.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button5.backgroundColor = .grayColor()
-        view.addSubview(button5)
-        
-        button6 = UIButton()
-        button6.translatesAutoresizingMaskIntoConstraints = false
-        button6.setTitle("6", forState: .Normal)
-        button6.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button6.backgroundColor = .grayColor()
-        view.addSubview(button6)
-        
-        button7 = UIButton()
-        button7.translatesAutoresizingMaskIntoConstraints = false
-        button7.setTitle("7", forState: .Normal)
-        button7.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button7.backgroundColor = .grayColor()
-        view.addSubview(button7)
-        
-        button8 = UIButton()
-        button8.translatesAutoresizingMaskIntoConstraints = false
-        button8.setTitle("8", forState: .Normal)
-        button8.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button8.backgroundColor = .grayColor()
-        view.addSubview(button8)
-        
-        button9 = UIButton()
-        button9.translatesAutoresizingMaskIntoConstraints = false
-        button9.setTitle("9", forState: .Normal)
-        button9.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        button9.backgroundColor = .grayColor()
-        view.addSubview(button9)
-        
-        // MARK: - FUNCTION BUTTONS
-        
-        divideButton = UIButton()
-        divideButton.translatesAutoresizingMaskIntoConstraints = false
-        divideButton.setTitle("/", forState: .Normal)
-        divideButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        divideButton.backgroundColor = .orangeColor()
-        view.addSubview(divideButton)
-        
-        addButton = UIButton()
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        addButton.setTitle("+", forState: .Normal)
-        addButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        addButton.backgroundColor = .orangeColor()
-        view.addSubview(addButton)
-        
-        subtractButton = UIButton()
-        subtractButton.translatesAutoresizingMaskIntoConstraints = false
-        subtractButton.setTitle("-", forState: .Normal)
-        subtractButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        subtractButton.backgroundColor = .orangeColor()
-        view.addSubview(subtractButton)
-        
-        multiplyButton = UIButton()
-        multiplyButton.translatesAutoresizingMaskIntoConstraints = false
-        multiplyButton.setTitle("X", forState: .Normal)
-        multiplyButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        multiplyButton.backgroundColor = .orangeColor()
-        view.addSubview(multiplyButton)
-        
-        enterButton = UIButton()
-        enterButton.translatesAutoresizingMaskIntoConstraints = false
-        enterButton.setTitle("↩︎", forState: .Normal)
-        enterButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        enterButton.backgroundColor = .greenColor()
-        view.addSubview(enterButton)
-        
-        
-        // MARK: - Contraints
-        
-        // MARK: Label
-        
-        var constraint = NSLayoutConstraint(item: label,
-                                            attribute: .Top,
-                                            relatedBy: .Equal,
-                                            toItem: view,
-                                            attribute: .Top,
-                                            multiplier: 1.0,
-                                            constant: 0.0)
-        view.addConstraint(constraint)
-        
-        
-        constraint = NSLayoutConstraint(item: label,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: view,
-                                        attribute: .Leading,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: label,
-                                        attribute: .Trailing,
-                                        relatedBy: .Equal,
-                                        toItem: view,
-                                        attribute: .Trailing,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: label,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 2.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        // MARK: Top
-        
-        constraint = NSLayoutConstraint(item: button7,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: label,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button8,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Top,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button9,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Top,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: divideButton,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Top,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button4,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button5,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button6,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: multiplyButton,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button1,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button4,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button2,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button4,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button3,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button4,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: subtractButton,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button4,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button0,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button1,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: enterButton,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button1,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: addButton,
-                                        attribute: .Top,
-                                        relatedBy: .Equal,
-                                        toItem: button1,
-                                        attribute: .Bottom,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        // MARK: Leading
-        
-        constraint = NSLayoutConstraint(item: addButton,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: enterButton,
-                                        attribute: .Trailing,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: enterButton,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: button2,
-                                        attribute: .Trailing,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button0,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: view,
-                                        attribute: .Leading,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: subtractButton,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: button3,
-                                        attribute: .Trailing,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button3,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: button2,
-                                        attribute: .Trailing,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button2,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: button1,
-                                        attribute: .Trailing,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button1,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: view,
-                                        attribute: .Leading,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: multiplyButton,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: button6,
-                                        attribute: .Trailing,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button6,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: button5,
-                                        attribute: .Trailing,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button5,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: button4,
-                                        attribute: .Trailing,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button4,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: view,
-                                        attribute: .Leading,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: divideButton,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: button9,
-                                        attribute: .Trailing,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button9,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: button8,
-                                        attribute: .Trailing,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button8,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Trailing,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button7,
-                                        attribute: .Leading,
-                                        relatedBy: .Equal,
-                                        toItem: view,
-                                        attribute: .Leading,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        // MARK: Trailing
-        
-        //        constraint = NSLayoutConstraint(item: button0,
-        //                                        attribute: .Trailing,
-        //                                        relatedBy: .Equal,
-        //                                        toItem: button2,
-        //                                        attribute: .Trailing,
-        //                                        multiplier: 1.0,
-        //                                        constant: 0.0)
-        //        view.addConstraint(constraint)
-        //
-        //        constraint = NSLayoutConstraint(item: divideButton,
-        //                                        attribute: .Trailing,
-        //                                        relatedBy: .Equal,
-        //                                        toItem: view,
-        //                                        attribute: .Trailing,
-        //                                        multiplier: 1.0,
-        //                                        constant: 0.0)
-        //        view.addConstraint(constraint)
-        
-        // MARK: Bottom
-        
-        //        constraint = NSLayoutConstraint(item: button0,
-        //                                        attribute: .Bottom,
-        //                                        relatedBy: .Equal,
-        //                                        toItem: view,
-        //                                        attribute: .Bottom,
-        //                                        multiplier: 1.0,
-        //                                        constant: 1.0)
-        //        view.addConstraint(constraint)
-        //
-        //        constraint = NSLayoutConstraint(item: enterButton,
-        //                                        attribute: .Bottom,
-        //                                        relatedBy: .Equal,
-        //                                        toItem: view,
-        //                                        attribute: .Bottom,
-        //                                        multiplier: 1.0,
-        //                                        constant: 1.0)
-        //        view.addConstraint(constraint)
-        //
-        //        constraint = NSLayoutConstraint(item: addButton,
-        //                                        attribute: .Bottom,
-        //                                        relatedBy: .Equal,
-        //                                        toItem: view,
-        //                                        attribute: .Bottom,
-        //                                        multiplier: 1.0,
-        //                                        constant: 1.0)
-        //        view.addConstraint(constraint)
-        
-        // MARK: Button 7 aspects
-        
-        constraint = NSLayoutConstraint(item: button7,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: label,
-                                        attribute: .Width,
-                                        multiplier: 0.25,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button7,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: view,
-                                        attribute: .Height,
-                                        multiplier: 1/6.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        // MARK: Other Button Heights
-        
-        constraint = NSLayoutConstraint(item: button0,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button1,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button2,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button3,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button4,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button5,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button6,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button8,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button9,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: divideButton,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: multiplyButton,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: subtractButton,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: addButton,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: enterButton,
-                                        attribute: .Height,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Height,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        // MARK: Other Button Widths
-        
-        constraint = NSLayoutConstraint(item: button0,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 2.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: enterButton,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: addButton,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: subtractButton,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: multiplyButton,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: divideButton,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button8,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button9,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button1,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button2,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button3,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button4,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button5,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        constraint = NSLayoutConstraint(item: button6,
-                                        attribute: .Width,
-                                        relatedBy: .Equal,
-                                        toItem: button7,
-                                        attribute: .Width,
-                                        multiplier: 1.0,
-                                        constant: 0.0)
-        view.addConstraint(constraint)
-        
-        
-        
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 }
